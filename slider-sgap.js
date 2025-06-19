@@ -57,20 +57,25 @@ $(document).ready(() => {
       const $next = $items.eq(to);
       const yFrom = forward ? 100 : -100;
 
+      // Show both slides for crossfade
       $items.css('display', 'none');
-      gsap.set([$prev, $next], { xPercent: 0 });
-      gsap.set($next, { opacity: 0, display: 'flex' });
+      $prev.css({ display: 'flex', opacity: 1, zIndex: 1 });
+      $next.css({ display: 'flex', opacity: 0, zIndex: 2 });
 
-      const tlSlide = gsap.timeline({ defaults: { duration: 1.5, ease: 'power2.inOut' } });
+      const tlSlide = gsap.timeline({ defaults: { duration: 1.2, ease: 'power2.inOut' } });
       tlSlide
-        .to($prev, { opacity: 0, onComplete: () => $prev.css('display', 'none') })
-        .to($next, { opacity: 1 }, '<')
+        .to($prev, { opacity: 0 }, 0)
+        .to($next, { opacity: 1 }, 0)
         .fromTo(
           $next.find('.slider_cms_title .char'),
           { yPercent: yFrom },
           { yPercent: 0, duration: 0.5, stagger: { amount: 0.5 } },
-          '<'
-        );
+          0
+        )
+        .add(() => {
+          $prev.css({ display: 'none', zIndex: '' });
+          $next.css({ zIndex: '' });
+        });
 
       index = to;
     }
