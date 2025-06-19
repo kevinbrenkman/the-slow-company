@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+$(document).ready(() => {
   /* shared timeline store */
   window.sliderTimelines = window.sliderTimelines || [];
   const sliderTimelines = window.sliderTimelines;
